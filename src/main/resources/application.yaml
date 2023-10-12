@@ -1,0 +1,53 @@
+debug: false
+management.endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    com.fastcampus.projectboardadmin: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+# 기존 게시판 project 와 port 충돌을 피해야 함.
+server.port: 8081
+
+spring:
+  devtools.livereload.port: 35730 # LiveReload server is running on port 35729 -> 해당 port 도 게시판 app 과 겹치지 않도록 석정
+  datasource:
+    url: ${LOCAL_DB_URL}
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+  sql.init.mode: always
+  thymeleaf3.decoupled-logic: true # by ThymeleafConfig class
+  security:
+    oauth2:
+      client:
+        registration: # oauth provider infomation
+          kakao:
+            client-id: ${KAKAO_OAUTH_CLIENT_ID}         # spirng boot 외부 환경 변수 주입으로 해당 값 입력을 처리하면,
+            client-secret: ${KAKAO_OAUTH_CLIENT_SECRET} # app 실행 시, spring boot 이  해당 setting 값을 넣고 실행하기 때문에 해당 설정을 삭제해도 동일하게 실행됨.(생략 가능은 local 배포인 경우만)
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
+            client-authentication-method: POST
+        provider:
+          kakao:
+            # https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api
+            authorization-uri: https://kauth.kakao.com/oauth/authorize    # 인증 (권한 받을 때)
+            token-uri: https://kauth.kakao.com/oauth/token           # 토큰 갱신
+            user-info-uri: https://kapi.kakao.com/v2/user/me        # 설정된 사용자 정보를 받아오는 (만약 자체 DB 에 저장하지 않는다면 필요할 때마다 가져와야함.)
+            user-name-attribute: id     # 받아온 인증 정보에는 다양한 property 들이 있을 텐데 그중 'id' 식별자 정보로 사용하겠다. (kakao 의 경우 응답 message 중 회원번호 id)
+
+---
+# @SpringBootTest 진행 시, 해당 파일 설정 중 민감정보 외부 환경 변수로 처리한 부분에서 에러가 발생하기 때문에
+# test 진행시 관련되 부분만 다르게 설정하여 실행할 수 있도록 test 설정을 추가함.
+spring:
+  config.activate.on-profile: test
+  datasource.url: jdbc:h2:mem:testdb
+
