@@ -1,0 +1,77 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.1.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| board              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.03 sec)
+
+mysql> create database admin
+    -> ^C
+mysql> ^C
+mysql> create database admin;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use admin
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| admin              |
+| board              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> show grants for 'gon'@'localhost'
+    -> ;
++--------------------------------------------------------------------------+
+| Grants for gon@localhost
+                      |
++--------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `gon`@`localhost`
+                      |
+| GRANT ALL PRIVILEGES ON `board`.* TO `gon`@`localhost` WITH GRANT OPTION |
++--------------------------------------------------------------------------+
+2 rows    set (0.01 sec)
+mysql>
+mysql>
+mysql> grant all on `admin`.* to 'gon'@'localhost' with grant option;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show grants for 'gon'@'localhost'
+    -> ;
++--------------------------------------------------------------------------+
+| Grants for gon@localhost                                                 |
++--------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `gon`@`localhost`                                  |
+| GRANT ALL PRIVILEGES ON `admin`.* TO `gon`@`localhost` WITH GRANT OPTION |
+| GRANT ALL PRIVILEGES ON `board`.* TO `gon`@`localhost` WITH GRANT OPTION |
++--------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql>
