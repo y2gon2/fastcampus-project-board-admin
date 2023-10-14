@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("View Controller - 댓글 관리")
 @Import(SecurityConfig.class)
-@WebMvcTest(ArticleManagementController.class)
+@WebMvcTest(ArticleCommentManagementController.class)
 class ArticleCommentManagementControllerTest {
 
     private final MockMvc mvc;
