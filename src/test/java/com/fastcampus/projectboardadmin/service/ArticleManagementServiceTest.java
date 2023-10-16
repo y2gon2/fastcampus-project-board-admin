@@ -53,9 +53,9 @@ class ArticleManagementServiceTest {
             this.sut = sut;
         }
 
-        @DisplayName("게시글 API 를 호출하면, 게시글을 가져온다.")
+        @DisplayName("게시글 API 를 호출하면, 게시글들을 가져온다.")
         @Test
-        void given_when_then() {
+        void givenNothing_whenCallingArticlesApi_thenReturnsArticles() {
             // Given
 
             // When
@@ -68,8 +68,8 @@ class ArticleManagementServiceTest {
         }
     }
 
-    // 2. Mocking data를 사용하는 test
-    @DisplayName("API mocking TESET")
+    // 2. Mocking server 를 사용하는 test
+    @DisplayName("API mocking TEST")
     @EnableConfigurationProperties(ProjectProperty.class)  // slice test 할때 configurationProperty 는 기본 비활성화 이므로 이를 활성화 시킴.
     @AutoConfigureWebClient(registerRestTemplate = true) // 사용자가 직접 가져올 bean 을 설정?
     @RestClientTest(ArticleManagementService.class)
