@@ -21,7 +21,7 @@ import java.util.Set;
         @Index(columnList = "createdBy")
 })
 @Entity
-public class UserAccount extends AuditingFields {
+public class AdminAccount extends AuditingFields {
     @Id @Column(length = 50) private String userId;
 
     @Setter @Column(nullable = false) private String userPassword;
@@ -36,9 +36,9 @@ public class UserAccount extends AuditingFields {
     @Setter @Column(length = 100) private String nickname;
     @Setter private String memo;
 
-    protected UserAccount() {}
+    protected AdminAccount() {}
 
-    private UserAccount(
+    private AdminAccount(
             String userId,
             String userPassword,
             Set<RoleType> roleTypes,
@@ -58,7 +58,7 @@ public class UserAccount extends AuditingFields {
     }
 
     // 인증 정보가 필요 없는 경우
-    public static UserAccount of(
+    public static AdminAccount of(
             String userId,
             String userPassword,
             Set<RoleType> roleTypes,
@@ -66,7 +66,7 @@ public class UserAccount extends AuditingFields {
             String nickname,
             String memo
     ) {
-        return UserAccount.of(
+        return AdminAccount.of(
                 userId,
                 userPassword,
                 roleTypes,
@@ -78,7 +78,7 @@ public class UserAccount extends AuditingFields {
     }
 
     // 인증 정보가 필요한 경우
-    public static UserAccount of(
+    public static AdminAccount of(
             String userId,
             String userPassword,
             Set<RoleType> roleTypes,
@@ -87,7 +87,7 @@ public class UserAccount extends AuditingFields {
             String memo,
             String createdBy
     ) {
-        return new UserAccount(
+        return new AdminAccount(
                 userId,
                 userPassword,
                 roleTypes,
@@ -114,7 +114,7 @@ public class UserAccount extends AuditingFields {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserAccount that = (UserAccount) o;
+        AdminAccount that = (AdminAccount) o;
         return Objects.equals(this.getUserId(), that.getUserId());  // 직접 field 조회에서 getter 사용으로 변경. proxy 객체 직접 접근시 발생하는 문제 해결 ?
     }
 
