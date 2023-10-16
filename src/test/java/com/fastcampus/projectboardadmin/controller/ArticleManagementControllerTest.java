@@ -74,7 +74,7 @@ class ArticleManagementControllerTest {
         then(articleManagementService).should().getArticle(articleId);
     }
 
-    @DisplayName("[View][GET] 게시글 삭제 - 정상호출")
+    @DisplayName("[View][POST] 게시글 삭제 - 정상 호출")
     @Test
     void givenArticleId_whenRequestingDeletion_thenRedirectsToArticleManagement() throws Exception {
         // Given
