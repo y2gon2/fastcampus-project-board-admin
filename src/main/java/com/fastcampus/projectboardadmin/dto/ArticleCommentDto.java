@@ -1,5 +1,7 @@
 package com.fastcampus.projectboardadmin.dto;
 
+import com.fastcampus.projectboardadmin.dto.UserAccountDto;
+
 import java.time.LocalDateTime;
 
 public record ArticleCommentDto(

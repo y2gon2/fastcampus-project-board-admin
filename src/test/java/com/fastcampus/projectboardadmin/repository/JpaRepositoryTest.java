@@ -1,12 +1,11 @@
 package com.fastcampus.projectboardadmin.repository;
 
 
-import com.fastcampus.projectboardadmin.domain.UserAccount;
+import com.fastcampus.projectboardadmin.domain.AdminAccount;
 import com.fastcampus.projectboardadmin.domain.constant.RoleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.convert.DataSizeUnit;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -33,33 +31,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest // slice test 로 모든 Spring Context 내 필요한 Bean Configuration 만 읽어옴. 때문에 test 용 Jpa configuration 을 별도로 생성하여 이를 사용해야 함.
 class JpaRepositoryTest {
 
-    private final UserAccountRepository userAccountRepository;
+    private final AdminAccountRepository adminAccountRepository;
 
 
-    public JpaRepositoryTest(@Autowired UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+    public JpaRepositoryTest(@Autowired AdminAccountRepository adminAccountRepository) {
+        this.adminAccountRepository = adminAccountRepository;
     }
 
-    @DisplayName("회원정보 Select Test")
+    @DisplayName("관리자 정보 Select Test")
     @Test
-    void givenUserAccounts_whenSelecting_thenWorkFine() {
+    void givenAdminAccounts_whenSelecting_thenWorkFine() {
         // Given
 
 
         // When
-        Optional<UserAccount> userAccouts = userAccountRepository.findById("uno");
+        Optional<AdminAccount> userAccouts = adminAccountRepository.findById("uno");
 
         // Then
         assertThat(userAccouts)
                 .isNotNull();
     }
 
-    @DisplayName("회원 정보 Insert Test")
+    @DisplayName("관리자 정보 Insert Test")
     @Test
-    void givenUserAccount_whenInserting_thenWorkFine() {
+    void givenAdminAccount_whenInserting_thenWorkFine() {
         // Given
-        long previousCount = userAccountRepository.count();
-        UserAccount userAccount = UserAccount.of(
+        long previousCount = adminAccountRepository.count();
+        AdminAccount adminAccount = AdminAccount.of(
                 "test_id",
                 "pw",
                 Set.of(RoleType.DEVELOPER),
@@ -69,21 +67,21 @@ class JpaRepositoryTest {
         );
 
         // When
-        userAccountRepository.save(userAccount);
+        adminAccountRepository.save(adminAccount);
 
         // Then
-        assertThat(userAccountRepository.count())
+        assertThat(adminAccountRepository.count())
                 .isEqualTo(previousCount + 1);
     }
 
-    @DisplayName("회원 정보 Update Test")
+    @DisplayName("관리자 정보 Update Test")
     @Test
-    void givenUserAccountAndRoleType_whenInserting_thenWorksFine() {
+    void givenAdminAccountAndRoleType_whenInserting_thenWorksFine() {
         // Given
-        UserAccount userAccount = userAccountRepository.getReferenceById("uno");
-        userAccount.addRoleType(RoleType.DEVELOPER);
-        userAccount.addRoleTypes(List.of(RoleType.USER, RoleType.USER));
-        userAccount.removeRoleType(RoleType.ADMIN);
+        AdminAccount adminAccount = adminAccountRepository.getReferenceById("uno");
+        adminAccount.addRoleType(RoleType.DEVELOPER);
+        adminAccount.addRoleTypes(List.of(RoleType.USER, RoleType.USER));
+        adminAccount.removeRoleType(RoleType.ADMIN);
 
         // When
         // 여기에서 save 요청은 기존에 존재하는 data 의 update 가 발생되어야 한다.
@@ -93,7 +91,7 @@ class JpaRepositoryTest {
         // UserAccount updatedAccount = userAccountRepository.save(userAccount);
         // 이렇게 강제적으로 바로 flush 를 하는 method 를 사용해야  update query 가 발생함을 확인할 수 있다. 
         // (test 끝난 후 내부적으로 별도의 rollback transaction 을 실행 시킴)
-        UserAccount updatedAccount = userAccountRepository.saveAndFlush(userAccount);
+        AdminAccount updatedAccount = adminAccountRepository.saveAndFlush(adminAccount);
 
         // Then
         assertThat(updatedAccount)
@@ -101,18 +99,18 @@ class JpaRepositoryTest {
                 .hasFieldOrPropertyWithValue("roleTypes", Set.of(RoleType.DEVELOPER, RoleType.USER));
     }
 
-    @DisplayName("회원정보 Delete Test")
+    @DisplayName("관리자 정보 Delete Test")
     @Test
-    void givenUserAccount_whenDeleting_thenWorkFine() {
+    void givenAdminAccount_whenDeleting_thenWorkFine() {
         // Given
-        long previousUserCount = userAccountRepository.count();
-        UserAccount userAccount = userAccountRepository.getReferenceById("uno");
+        long previousUserCount = adminAccountRepository.count();
+        AdminAccount adminAccount = adminAccountRepository.getReferenceById("uno");
 
         // When
-        userAccountRepository.delete(userAccount);
+        adminAccountRepository.delete(adminAccount);
 
         // Then
-        assertThat(userAccountRepository.count())
+        assertThat(adminAccountRepository.count())
                 .isEqualTo(previousUserCount - 1);
     }
 
