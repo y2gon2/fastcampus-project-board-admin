@@ -85,6 +85,8 @@ class ArticleCommentManagementServiceTest {
             this.mapper = mapper;
         }
 
+        // TODO: 게시글과 달리 화면 요청 api 로 확인했을 때 회원 정보를 한방에 모아서 보내주는 건 없었는데...
+        //       CRUD 요청에서 findAll 로 하면 다 가져올수 있는건지... 모르겠다..
         @DisplayName("댓글 목록 API를 호출하면, 댓글들을 가져온다")
         @Test
         void givenNothing_whenCallingArticleCommentsApi_thenReturnsArticleComments() throws Exception {
