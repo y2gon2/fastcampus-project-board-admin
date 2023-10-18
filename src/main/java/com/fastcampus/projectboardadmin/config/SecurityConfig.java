@@ -63,7 +63,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .mvcMatchers(HttpMethod.POST, "/**").hasAnyRole(rolesAboveManager) // mvcMatchers() 는 spring 3.0 에서 requestMatchers 로 변경 됨.
                         .mvcMatchers(HttpMethod.DELETE, "/**").hasAnyRole(rolesAboveManager)
-                        .anyRequest().authenticated() // permitAll() 에서 인증 필요로 변경
+                        .anyRequest().permitAll() // permitAll() 에서 인증 필요로 변경
                 )
                 .formLogin(withDefaults()) // 기본값을 내부적으로 설정. 따라서 method chaining 을 위한 and() 가 필요 없어짐.
                 .logout(logout -> logout.logoutSuccessUrl("/"))
