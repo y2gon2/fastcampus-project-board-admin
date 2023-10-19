@@ -1,20 +1,48 @@
 package com.fastcampus.projectboardadmin.controller;
 
+import com.fastcampus.projectboardadmin.dto.response.ArticleResponse;
+import com.fastcampus.projectboardadmin.service.ArticleManagementService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
+@RequiredArgsConstructor
 @RequestMapping("/management/articles")
 @Controller
 public class ArticleManagementController {
 
+    private final ArticleManagementService articleManagementService;
+
+    // 게시글 list view
     @GetMapping
     public String article(Model model) {
+        model.addAttribute(
+                "articles",
+                articleManagementService
+                        .getArticles()
+                        .stream()
+                        .map(ArticleResponse::withoutContent)
+                        .toList()
+        );
+
         return "management/articles";
+    }
+
+    // Modal request 용
+    @ResponseBody
+    @GetMapping("/{id}")
+    public ArticleResponse article(@PathVariable Long id) {
+        return ArticleResponse.withContent(articleManagementService.getArticle(id));
+    }
+
+    @PostMapping("/{id}")
+    public String deleteArticle(@PathVariable Long id) {
+        articleManagementService.deleteArticle(id);
+        return "redirect:/management/articles";
     }
 }
