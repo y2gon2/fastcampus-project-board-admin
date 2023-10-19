@@ -49,6 +49,7 @@ class ArticleManagementServiceTest {
     class RealApiTest {
         private final ArticleManagementService sut;
 
+        @Autowired
         public RealApiTest(ArticleManagementService sut) {
             this.sut = sut;
         }
@@ -162,7 +163,7 @@ class ArticleManagementServiceTest {
             Long articleId = 1L;
 
             server
-                    .expect(requestTo(projectProperties.board().url() + "/api/articels/" + articleId))
+                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
                     .andExpect(method(HttpMethod.DELETE))
                     .andRespond(withSuccess());
 
