@@ -41,7 +41,8 @@ public class AdminAccountService {
                         roleTypes,
                         email,
                         nickname,
-                        memo
+                        memo,
+                        nickname
                 ))
         );
     }
