@@ -9,7 +9,7 @@ import java.util.Set;
 public record AdminAccountDto(
         String userId,
         String userPassword,
-        Set<RoleType> roleTeyps,
+        Set<RoleType> roleTypes,
         String email,
         String nickname,
         String memo,
@@ -84,7 +84,7 @@ public record AdminAccountDto(
         return AdminAccount.of(
                 userId,
                 userPassword,
-                roleTeyps,
+                roleTypes,
                 email,
                 nickname,
                 memo

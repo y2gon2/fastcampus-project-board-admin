@@ -79,7 +79,7 @@ class AdminAccountServiceTest {
         assertThat(result)
                 .hasFieldOrPropertyWithValue("userId", admin.getUserId())
                 .hasFieldOrPropertyWithValue("userPassword", admin.getUserPassword())
-                .hasFieldOrPropertyWithValue("roleType", admin.getRoleTypes())
+                .hasFieldOrPropertyWithValue("roleTypes", admin.getRoleTypes())
                 .hasFieldOrPropertyWithValue("email", admin.getEmail())
                 .hasFieldOrPropertyWithValue("nickname", admin.getNickname())
                 .hasFieldOrPropertyWithValue("memo", admin.getMemo())

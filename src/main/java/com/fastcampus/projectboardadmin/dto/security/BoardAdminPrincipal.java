@@ -71,7 +71,7 @@ public record BoardAdminPrincipal(
         return BoardAdminPrincipal.of(
                 dto.userId(),
                 dto.userPassword(),
-                dto.roleTeyps(),
+                dto.roleTypes(),
                 dto.email(),
                 dto.nickname(),
                 dto.memo()

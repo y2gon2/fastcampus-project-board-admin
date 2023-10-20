@@ -38,7 +38,7 @@ public record AdminAccountResponse(
     public static AdminAccountResponse from(AdminAccountDto dto) {
         return AdminAccountResponse.of(
                 dto.userId(),
-                dto.roleTeyps().stream()
+                dto.roleTypes().stream()
                         .map(RoleType::getDescription)
                         .collect(Collectors.joining(", ")),
                 dto.email(),
