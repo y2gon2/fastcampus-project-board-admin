@@ -16,11 +16,15 @@ public record UserAccountClientResponse(
         );
     }
 
-    public static UserAccountClientResponse of(List<UserAccountDto> useraAccounts) {
+    public static UserAccountClientResponse of(List<UserAccountDto> userAccounts) {
         return new UserAccountClientResponse(
-                new Embedded(useraAccounts),
-                new Page(useraAccounts.size(), useraAccounts.size(), 1, 0)
+                new Embedded(userAccounts),
+                new Page(userAccounts.size(), userAccounts.size(), 1, 0)
         );
+    }
+
+    public List<UserAccountDto> userAccounts() {
+        return this.embedded.userAccounts();
     }
 
     public record Embedded(List<UserAccountDto> userAccounts) {}
