@@ -42,7 +42,7 @@ class ArticleManagementServiceTest {
     // -> data source 가 외부(게시글 프로젝트 내 DB)에 존재하기 때문
 
     // 1. 실제 API 로부터 받은 data 를 사용하는 test
-    @Disabled("실제 API 호출 결과 관찰용이므로 평상시에는 비활성화")
+//    @Disabled("실제 API 호출 결과 관찰용이므로 평상시에는 비활성화")
     @DisplayName("실제 API 호출 TEST")
     @SpringBootTest
     @Nested
@@ -60,11 +60,11 @@ class ArticleManagementServiceTest {
             // Given
 
             // When
-            List<ArticleDto> result = sut.getArticles();
+            ArticleDto result = sut.getArticle(1L);
 
             // Then
             // 요청 사항이 예상한바와 일치하는가가 중요하기보다 실제 API 호출에 대한 응답을 받았는지가 중요
-            System.out.println(result.stream().findFirst());
+            System.out.println(result);
             assertThat(result).isNotNull();
         }
     }
@@ -138,7 +138,7 @@ class ArticleManagementServiceTest {
             ArticleDto expectedArticle = createArticleDto("제목", "내용");
 
             server
-                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
+                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId + "?projection=withUserAccount"))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedArticle),
                             MediaType.APPLICATION_JSON

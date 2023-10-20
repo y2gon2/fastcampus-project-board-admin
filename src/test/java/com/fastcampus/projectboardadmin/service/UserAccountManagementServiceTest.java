@@ -33,7 +33,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 class UserAccountManagementServiceTest {
 
     // 1. 실제 API server 통신 상태 test
-    @Disabled("실제 API 호출 결과 확인을 위한 test 이므로 logic test 상황에서는 비활성화")
+//    @Disabled("실제 API 호출 결과 확인을 위한 test 이므로 logic test 상황에서는 비활성화")
     @DisplayName("실제 API 호출 Test")
     @SpringBootTest
     @Nested
@@ -41,6 +41,7 @@ class UserAccountManagementServiceTest {
 
         private final UserAccountManagementService sut;
 
+        @Autowired
         public RealApiTest(UserAccountManagementService sut) {
             this.sut = sut;
         }
@@ -95,7 +96,7 @@ class UserAccountManagementServiceTest {
             UserAccountClientResponse expectedResponse = UserAccountClientResponse.of(List.of(expectedUser));
 
             server
-                    .expect(requestTo(projectProperty.board().url() + "/management/user-accounts"))
+                    .expect(requestTo(projectProperty.board().url() + "/api/userAccounts?size=10000"))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedResponse),
                             MediaType.APPLICATION_JSON
@@ -120,7 +121,7 @@ class UserAccountManagementServiceTest {
             UserAccountDto expectedUser = createUserAccountDto(userId, "Uno");
 
             server
-                    .expect(requestTo(projectProperty.board().url() + "/management/user-accounts/" + userId))
+                    .expect(requestTo(projectProperty.board().url() + "/api/userAccounts/" + userId + "?projection=withUserAccount"))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedUser),
                             MediaType.APPLICATION_JSON
@@ -143,7 +144,7 @@ class UserAccountManagementServiceTest {
             // Given
             String userId = "uno";
             server
-                    .expect(requestTo(projectProperty.board().url() + "/management/user-accounts/" + userId))
+                    .expect(requestTo(projectProperty.board().url() + "/api/userAccounts/" + userId))
                     .andExpect(method(HttpMethod.DELETE))
                     .andRespond(withSuccess());
 
