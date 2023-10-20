@@ -3,12 +3,8 @@ package com.fastcampus.projectboardadmin.controller;
 import com.fastcampus.projectboardadmin.dto.response.AdminAccountResponse;
 import com.fastcampus.projectboardadmin.service.AdminAccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +15,8 @@ public class AdminAccountController {
 
     private final AdminAccountService adminAccountService;
 
-    @RequestMapping("/admin/members")
-    public String adminAccount (Model model) {
+    @GetMapping("/admin/members")
+    public String members () { // JsGrid table 에 정보들은 model attribute 로 넘겨주지 않아도 된다??
         return "admin/members";
     }
 
@@ -52,16 +48,15 @@ public class AdminAccountController {
     @ResponseBody
     @GetMapping("/api/admin/members")
     public List<AdminAccountResponse> getMembers() {
-        return List.of();
-//        return adminAccountService.users().stream()
-//                .map(AdminAccountResponse::from)
-//                .toList();
+        return adminAccountService.users().stream()
+                .map(AdminAccountResponse::from)
+                .toList();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT) // 응답 HttpStatus 를 특정 code 로 지정하기 위해 사용? (NO_CONTENT - 204 (delete 에 주로 사용), OK - 200 (default) CREATED - 200 (insert))
     @ResponseBody
     @DeleteMapping("/api/admin/members/{userId}")
     public void delete(@PathVariable String userId) {
-//        adminAccountService.deleteUser(userId);
+        adminAccountService.deleteUser(userId);
     }
 }
