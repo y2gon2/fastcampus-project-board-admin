@@ -37,6 +37,7 @@ public class ArticleManagementService {
     public ArticleDto getArticle(Long articleId) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(projectProperty.board().url() + "/api/articles/" + articleId)
+                .queryParam("projection","withUserAccount") // 해당 projection 이 없으면 userAccount 는 null 로 가져옴
                 .build()
                 .toUri();
 
