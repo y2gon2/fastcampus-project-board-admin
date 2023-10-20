@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public record ArticleCommentDto(
         Long id,
         Long articleId,
-        UserAccountDto userAccountDto,
+        UserAccountDto userAccount,
         Long parentCommentId,
         String content,
         LocalDateTime createdAt,
@@ -17,14 +17,14 @@ public record ArticleCommentDto(
 ) {
     public ArticleCommentDto of(
             Long articleId,
-            UserAccountDto userAccountDto,
+            UserAccountDto userAccount,
             Long parentCommentId,
             String content
     ) {
         return new ArticleCommentDto(
                 null,
                 articleId,
-                userAccountDto,
+                userAccount,
                 parentCommentId,
                 content,
                 null,
@@ -37,7 +37,7 @@ public record ArticleCommentDto(
     public static ArticleCommentDto of(
             Long id,
             Long articleId,
-            UserAccountDto userAccountDto,
+            UserAccountDto userAccount,
             Long parentCommentId,
             String content,
             LocalDateTime createdAt,
@@ -48,7 +48,7 @@ public record ArticleCommentDto(
         return new ArticleCommentDto(
                 id,
                 articleId,
-                userAccountDto,
+                userAccount,
                 parentCommentId,
                 content,
                 createdAt,
