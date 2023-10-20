@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ class ArticleCommentManagementControllerTest {
         this.mvc = mvc;
     }
 
+    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[view][GET] 댓글 관리 페이지 - 정상 호출")
     @Test
     void givenNothing_whenRequestingArticleCommentsManagementView_thenReturnsArticleCommentsManagementView() throws Exception {
@@ -46,11 +48,12 @@ class ArticleCommentManagementControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("management/article-comments"))
-                .andExpect(model().attribute("Comments", List.of()));
+                .andExpect(model().attribute("comments", List.of()));
 
         then(articleCommentManagementService).should().getArticleComments();
     }
 
+    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[view][GET] 댓글 1개 - 정상 호출")
     @Test
     void givenNothing_whenRequestingArticleComment_thenReturnsArticleComment() throws Exception {
@@ -65,11 +68,12 @@ class ArticleCommentManagementControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(commentId))
                 .andExpect(jsonPath("$.content").value(articleCommentDto.content()))
-                .andExpect(jsonPath("$.userAccount.nickname").value(articleCommentDto.userAccountDto().nickname()));
+                .andExpect(jsonPath("$.userAccount.nickname").value(articleCommentDto.userAccount().nickname()));
 
         then(articleCommentManagementService).should().getArticleComment(commentId);
     }
 
+    @WithMockUser(username = "tester", roles = "DEVELOPER")
     @DisplayName("[view][POST] 댓글 삭제 - 정상 호출")
     @Test
     void givenNothing_whenRequestingDeletion_thenRedirectsToArticleCommentManagement() throws Exception {
@@ -84,7 +88,7 @@ class ArticleCommentManagementControllerTest {
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/management/article-comments"))
-                .andExpect(redirectedUrl("management/article-comments"));
+                .andExpect(redirectedUrl("/management/article-comments"));
 
         then(articleCommentManagementService).should().deleteArticleComment(commentId);
     }

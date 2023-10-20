@@ -35,13 +35,14 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 class ArticleCommentManagementServiceTest {
 
     // 1. 실제 API server 통신 상태 test
-    @Disabled("실재 API 호출 결과 관찰이 필요할 경우 활성화")
+//    @Disabled("실재 API 호출 결과 관찰이 필요할 경우 활성화")
     @DisplayName("실제 API 호출 TEST")
     @SpringBootTest
     @Nested
     class RealApiTest {
         private final ArticleCommentManagementService sut;
 
+        @Autowired
         public RealApiTest(ArticleCommentManagementService sut) {
             this.sut = sut;
         }
@@ -95,7 +96,7 @@ class ArticleCommentManagementServiceTest {
             CommentClientResponse expectedResponse = CommentClientResponse.of(List.of(expectedComment));
 
             server
-                    .expect(requestTo(projectProperty.board().url() + "/api/articels?size=10000"))
+                    .expect(requestTo(projectProperty.board().url() + "/api/articleComments?size=10000"))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedResponse),
                             MediaType.APPLICATION_JSON
@@ -108,7 +109,7 @@ class ArticleCommentManagementServiceTest {
             assertThat(result).first()
                     .hasFieldOrPropertyWithValue("id", expectedComment.id())
                     .hasFieldOrPropertyWithValue("content", expectedComment.content())
-                    .hasFieldOrPropertyWithValue("userAccount.nickname", expectedComment.userAccountDto().nickname());
+                    .hasFieldOrPropertyWithValue("userAccount.nickname", expectedComment.userAccount().nickname());
 
             server.verify();
         }
@@ -134,7 +135,7 @@ class ArticleCommentManagementServiceTest {
             assertThat(result)
                     .hasFieldOrPropertyWithValue("id", expectedComment.id())
                     .hasFieldOrPropertyWithValue("content", expectedComment.content())
-                    .hasFieldOrPropertyWithValue("userAccount.nickname", expectedComment.userAccountDto().nickname());
+                    .hasFieldOrPropertyWithValue("userAccount.nickname", expectedComment.userAccount().nickname());
             server.verify();
         }
 
@@ -145,7 +146,7 @@ class ArticleCommentManagementServiceTest {
             long commentId = 1L;
 
             server
-                    .expect(requestTo(projectProperty.board().url() + "/api/acticleComments/" + commentId))
+                    .expect(requestTo(projectProperty.board().url() + "/api/articleComments/" + commentId))
                     .andExpect(method(HttpMethod.DELETE))
                     .andRespond(withSuccess());
 

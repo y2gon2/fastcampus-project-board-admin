@@ -35,14 +35,14 @@ public class ArticleManagementController {
 
     // Modal request 용
     @ResponseBody
-    @GetMapping("/{id}")
-    public ArticleResponse article(@PathVariable Long id) {
-        return ArticleResponse.withContent(articleManagementService.getArticle(id));
+    @GetMapping("/{articleId}")
+    public ArticleResponse article(@PathVariable Long articleId) {
+        return ArticleResponse.withContent(articleManagementService.getArticle(articleId));
     }
 
-    @PostMapping("/{id}")
-    public String deleteArticle(@PathVariable Long id) {
-        articleManagementService.deleteArticle(id);
+    @PostMapping("/{articleId}")
+    public String deleteArticle(@PathVariable Long articleId) {
+        articleManagementService.deleteArticle(articleId);
         return "redirect:/management/articles";
     }
 }
