@@ -42,7 +42,7 @@ class ArticleManagementServiceTest {
     // -> data source 가 외부(게시글 프로젝트 내 DB)에 존재하기 때문
 
     // 1. 실제 API 로부터 받은 data 를 사용하는 test
-//    @Disabled("실제 API 호출 결과 관찰용이므로 평상시에는 비활성화")
+    @Disabled("실제 API 호출 결과 관찰용이므로 평상시에는 비활성화")
     @DisplayName("실제 API 호출 TEST")
     @SpringBootTest
     @Nested

@@ -33,7 +33,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 class UserAccountManagementServiceTest {
 
     // 1. 실제 API server 통신 상태 test
-//    @Disabled("실제 API 호출 결과 확인을 위한 test 이므로 logic test 상황에서는 비활성화")
+    @Disabled("실제 API 호출 결과 확인을 위한 test 이므로 logic test 상황에서는 비활성화")
     @DisplayName("실제 API 호출 Test")
     @SpringBootTest
     @Nested
@@ -121,7 +121,7 @@ class UserAccountManagementServiceTest {
             UserAccountDto expectedUser = createUserAccountDto(userId, "Uno");
 
             server
-                    .expect(requestTo(projectProperty.board().url() + "/api/userAccounts/" + userId + "?projection=withUserAccount"))
+                    .expect(requestTo(projectProperty.board().url() + "/api/userAccounts/" + userId))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedUser),
                             MediaType.APPLICATION_JSON
