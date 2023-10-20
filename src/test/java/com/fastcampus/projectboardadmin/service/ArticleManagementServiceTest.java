@@ -49,27 +49,28 @@ class ArticleManagementServiceTest {
     class RealApiTest {
         private final ArticleManagementService sut;
 
+        @Autowired
         public RealApiTest(ArticleManagementService sut) {
             this.sut = sut;
         }
 
-        @DisplayName("게시글 API 를 호출하면, 게시글을 가져온다.")
+        @DisplayName("게시글 API 를 호출하면, 게시글들을 가져온다.")
         @Test
-        void given_when_then() {
+        void givenNothing_whenCallingArticlesApi_thenReturnsArticles() {
             // Given
 
             // When
-            List<ArticleDto> result = sut.getArticles();
+            ArticleDto result = sut.getArticle(1L);
 
             // Then
             // 요청 사항이 예상한바와 일치하는가가 중요하기보다 실제 API 호출에 대한 응답을 받았는지가 중요
-            System.out.println(result.stream().findFirst());
+            System.out.println(result);
             assertThat(result).isNotNull();
         }
     }
 
-    // 2. Mocking data를 사용하는 test
-    @DisplayName("API mocking TESET")
+    // 2. Mocking server 를 사용하는 test
+    @DisplayName("API mocking TEST")
     @EnableConfigurationProperties(ProjectProperty.class)  // slice test 할때 configurationProperty 는 기본 비활성화 이므로 이를 활성화 시킴.
     @AutoConfigureWebClient(registerRestTemplate = true) // 사용자가 직접 가져올 bean 을 설정?
     @RestClientTest(ArticleManagementService.class)
@@ -137,7 +138,7 @@ class ArticleManagementServiceTest {
             ArticleDto expectedArticle = createArticleDto("제목", "내용");
 
             server
-                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
+                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId + "?projection=withUserAccount"))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedArticle),
                             MediaType.APPLICATION_JSON
@@ -162,7 +163,7 @@ class ArticleManagementServiceTest {
             Long articleId = 1L;
 
             server
-                    .expect(requestTo(projectProperties.board().url() + "/api/articels/" + articleId))
+                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
                     .andExpect(method(HttpMethod.DELETE))
                     .andRespond(withSuccess());
 
@@ -196,8 +197,6 @@ class ArticleManagementServiceTest {
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
           "unoTest",
-          "pw",
-          Set.of(RoleType.ADMIN),
           "uno-test@email.com",
           "uno-test",
           "test memo"

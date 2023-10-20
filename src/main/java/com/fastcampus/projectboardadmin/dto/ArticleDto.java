@@ -1,7 +1,5 @@
 package com.fastcampus.projectboardadmin.dto;
 
-import com.fastcampus.projectboardadmin.domain.UserAccount;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 
