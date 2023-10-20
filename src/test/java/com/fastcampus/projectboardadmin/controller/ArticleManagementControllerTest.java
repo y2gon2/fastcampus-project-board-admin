@@ -95,23 +95,6 @@ class ArticleManagementControllerTest {
         then(articleManagementService).should().deleteArticle(articleId);
     }
 
-
-//    @DisplayName("")
-//    @Test
-//    void given_when_then() {
-//        // Given
-//
-//        // When & Then
-//    }
-//
-//    @DisplayName("")
-//    @Test
-//    void given_when_then() {
-//        // Given
-//
-//        // When & Then
-//    }
-
     // ------------ Fixture for Test ------------
     private ArticleDto createArticleDto(String title, String content) {
         return ArticleDto.of(
