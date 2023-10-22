@@ -1,5 +1,6 @@
 package com.fastcampus.projectboardadmin.controller;
 
+import com.fastcampus.projectboardadmin.config.GlobalControllerConfig;
 import com.fastcampus.projectboardadmin.config.TestSecurityConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @DisplayName("View Root Controller")
-@Import(TestSecurityConfig.class)
+@Import({TestSecurityConfig.class, GlobalControllerConfig.class})
 @WebMvcTest(MainController.class)
 class MainControllerTest {
 
