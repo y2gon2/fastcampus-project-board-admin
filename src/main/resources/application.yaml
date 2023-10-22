@@ -46,6 +46,16 @@ spring:
             user-name-attribute: id     # 받아온 인증 정보에는 다양한 property 들이 있을 텐데 그중 'id' 식별자 정보로 사용하겠다. (kakao 의 경우 응답 message 중 회원번호 id)
 
 project.board.url: http://localhost:8080  # @ConfigurationProperties("project") 를 통해 해당 value 를 가져올 수 있음.
+
+---
+
+spring:
+  config.activate.on-profile: heroku
+  datasource.rul: ${JAWSDB_URL}
+  jpa.hibernate.ddl-auto: create
+
+project.board.url: ${PROJECT_BOARD_URL}
+
 ---
 # @SpringBootTest 진행 시, 해당 파일 설정 중 민감정보 외부 환경 변수로 처리한 부분에서 에러가 발생하기 때문에
 # test 진행시 관련되 부분만 다르게 설정하여 실행할 수 있도록 test 설정을 추가함.
